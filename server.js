@@ -5,7 +5,26 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// ⚠️ CORS Configuration - Allow Netlify domains (CRITICAL FOR PRODUCTION)
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5500',
+      'http://localhost:8000',
+      'https://ectravelandtour.netlify.app',  // Netlify deployment
+      'https://ectravelandtour.com',            // Custom domain
+      'https://www.ectravelandtour.com',        // www custom domain
+    ];
+    
+    // Allow requests with no origin (like mobile apps)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`❌ CORS rejected request from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
 
 // Google Apps Script Web App URL for updating Google Sheet
 const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24aAnZVmTQN48j7iFxB-JwrMPlgvoqmxho-oTkpalQ8JloPJmEs_e3Or7xFtI0fSQ/exec';
@@ -299,3 +318,4 @@ app.listen(PORT, () => {
   console.log(`  - POST /mark-coupon-used (Updates Google Sheet via Apps Script)`);
   console.log(`  - POST /save-booking (Saves booking to Google Sheet)`);
 });
+
