@@ -35,7 +35,6 @@ app.use(cors(corsOptions));
 
 // Google Apps Script Web App URL for updating Google Sheet
 const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24aAnZVmTQN48j7iFxB-JwrMPlgvoqmxho-oTkpalQ8JloPJmEs_e3Or7xFtI0fSQ/exec';
-// ... rest of your code stays the same
 // Note: Using single URL for both coupon and booking operations - differentiated by "action" field
 
 // Update Google Sheet using Google Apps Script - Mark coupon as used
@@ -326,5 +325,6 @@ app.listen(PORT, () => {
   console.log(`  - POST /mark-coupon-used (Updates Google Sheet via Apps Script)`);
   console.log(`  - POST /save-booking (Saves booking to Google Sheet)`);
 });
+
 
 
