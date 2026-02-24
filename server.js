@@ -13,9 +13,8 @@ const corsOptions = {
       'http://localhost:3000',
       'http://localhost:5500',
       'http://localhost:8000',
-      'https://ectravelandtour.netlify.app',  // Netlify deployment
-      'https://ectravelandtour.com',            // Custom domain
-      'https://www.ectravelandtour.com',        // www custom domain
+      'https://ectravelandtour.com',
+      'https://www.ectravelandtour.com',
     ];
     
     // Allow requests with no origin (like mobile apps)
@@ -25,9 +24,18 @@ const corsOptions = {
       console.warn(`❌ CORS rejected request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // Google Apps Script Web App URL for updating Google Sheet
 const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24aAnZVmTQN48j7iFxB-JwrMPlgvoqmxho-oTkpalQ8JloPJmEs_e3Or7xFtI0fSQ/exec';
+// ... rest of your code stays the same
 // Note: Using single URL for both coupon and booking operations - differentiated by "action" field
 
 // Update Google Sheet using Google Apps Script - Mark coupon as used
@@ -318,4 +326,5 @@ app.listen(PORT, () => {
   console.log(`  - POST /mark-coupon-used (Updates Google Sheet via Apps Script)`);
   console.log(`  - POST /save-booking (Saves booking to Google Sheet)`);
 });
+
 
